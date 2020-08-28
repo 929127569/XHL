@@ -21,7 +21,7 @@
                 </div>
               </router-link>  
               <!-- </a> -->
-              <van-button type="danger">加入购物车</van-button>
+              <van-button type="danger" @click="addcar(item)">加入购物车</van-button>
             </div>
             
           </div>
@@ -69,6 +69,42 @@ export default {
     };
   },
   methods:{
+    addcar(item){
+      let goodsInfo={
+        pid:item.pid,
+        count:1,
+        title:item.title,
+        price:item.price,
+        img:item.img.split('|')[0],
+        // stock:item.stock,
+      };
+      if(this.$store.state.car.length==0){
+        this.$store.commit('addTocar',goodsInfo);
+        console.log('第一次添加',this.$store.state.car)
+      }else{
+        let bool=this.$store.state.car.some(item=>{
+          return item.pid==goodsInfo.pid;
+        })
+        // console.log(bool);
+        if(bool){
+          for(let i of this.$store.state.car){
+            // console.log('wo',i);
+            if(i.pid==goodsInfo.pid){
+              i.count++;
+              localStorage.setItem('car',JSON.stringify(this.$store.state.car))
+              console.log('改变数量',this.$store.state.car);
+              }
+            }
+        }else{
+          this.$store.commit('addTocar',goodsInfo);
+          console.log('添加新商品',this.$store.state.car);
+        }
+        
+
+      }
+      
+
+    },
     onChange(index){
       let k=index
       let kind=['当季热卖','礼券精选','年货好礼','腊味生腌制品','熟食卤味方便菜','中点','西点','糖果休闲零食','散装月饼','年菜半成品','青团','盒装月饼','端午粽香','速食冷冻','其他']

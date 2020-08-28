@@ -13,11 +13,7 @@
             <div class="cartlist" v-for="(i,k) of this.$store.state.car" :key="k">
               <div class="cartlistitem" >
                 <label>
-                  <input type="checkbox" 
-                  class="cartcheck" 
-                   @click="selectSingle(k)" 
-                   :checked="allGoods.indexOf(i.pid)>=0"
-                   />
+                  <input type="checkbox" class="cartcheck"  />
                 </label>
                 <img :src="i.img" alt />
                 <a href="javascript:;">
@@ -42,7 +38,7 @@
     </div>
     <div class="carthead">
       <h3>购物车</h3>
-      <button @click="delSelect()">
+      <button>
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#iconshanchu" />
         </svg>
@@ -50,10 +46,7 @@
     </div>
     <div class="cartfoote">
       <label >
-        <input type="checkbox" 
-        @click="selectAll()" 
-        :checked="this.$store.state.car.length==allGoods.length&&this.$store.state.car.length"
-        />全选
+        <input type="checkbox" >全选
       </label>
       <div class="cartfoote-i">
         <span>合计: <b>￥{{total}}</b> </span>
@@ -72,65 +65,10 @@ export default {
   data() {
     return {
       active: 0,
-      allchecked:true,
-      allGoods:[]
       // value: 1,
     };
   },
   methods:{
-    
-    delSelect(){
-      // console.log(this.allGoods);
-      if(this.allGoods.length>0){
-        this.$dialog.confirm({
-          title: '您确定要删除被选择的商品吗？',
-          message: '弹窗内容',
-        }).then(()=>{
-          for(var i=0;i<this.$store.state.car.length;i++){
-            for(var k of this.allGoods){
-
-              if( this.$store.state.car[i].pid==k){
-                this.$store.state.car.splice(i,1);
-                localStorage.setItem('car',JSON.stringify(this.$store.state.car))
-                console.log(this.$store.state.car)
-              }
-            }
-          }
-
-        }).catch(()=>{
-          console.log('2')
-        })
-      }else{
-        this.$dialog.alert({
-          message:"请至少选择一个商品"
-        })
-      }
-      
-      
-    },
-    selectAll(){
-      if(!event.currentTarget.checked){
-        this.allGoods=[];
-      }else{
-        this.allGoods=[];
-        this.$store.state.car.forEach(item=> {
-          this.allGoods.push(item.pid);
-        });
-      }
-    },
-    selectSingle(k){
-      if(event.currentTarget.checked){
-        this.allGoods.push(this.$store.state.car[k].pid);
-      }else{
-        for(let i=0;i<this.allGoods.length;i++){
-          if(this.$store.state.car[k].pid==this.allGoods[i]){
-            this.allGoods.splice(i,1);
-            this.allchecked=false;
-            break;
-          }
-        }
-      }
-    },
     changecount(i){
       localStorage.setItem('car',JSON.stringify(this.$store.state.car));
       // console.log(this.$store.state.car);
@@ -142,20 +80,16 @@ export default {
     counttotal(){
       let counttotal=0;
       for(let i of this.$store.state.car){
-        if(this.allGoods.indexOf(i.pid)!==-1){
         counttotal+=i.count;
-        }
-      };
+      }
         return counttotal;
 
     },
     total(){
       let total=0;
       for (let i of this.$store.state.car){
-        if(this.allGoods.indexOf(i.pid)!==-1){
-          total+=i.count*i.price;
-        }
-      };
+        total+=i.count*i.price;
+      }
       return total;
     }
   }

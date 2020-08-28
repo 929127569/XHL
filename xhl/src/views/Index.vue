@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="Indexstyle">
     <my-heade></my-heade>
     <!-- 轮播图开始 -->
     <div class="mysweiper">
@@ -427,16 +427,16 @@ export default {
   float: left;
   width: 100%;
 }
-.van-image-preview__close-icon--top-right {
+.codeout .van-image-preview__close-icon--top-right {
   top: 9rem !important;
   right: 3.1rem !important;
 }
-.van-image-preview__index {
+.codeout .van-image-preview__index {
   top: 10rem !important;
 }
-.van-image__error,
-.van-image__img,
-.van-image__loading {
+.codeout .van-image__error,
+.codeout .van-image__img,
+.codeout .van-image__loading {
   width: 60% !important;
   height: 60% !important;
   margin: 0 auto !important;
@@ -446,7 +446,7 @@ export default {
    height: 75% !important;
    margin: 0 auto !important;
 } */
-.van-overlay {
+.Indexstyle .van-overlay {
   /* margin: 0 auto; */
   width: 80% !important;
   height: 51% !important;
@@ -454,7 +454,7 @@ export default {
   left: 2.5rem !important;
   border-radius: 5px;
 }
-.van-image-preview__overlay {
+.codeout .van-image-preview__overlay {
   background-color: rgba(0, 0, 0, 0.7);
 }
 .code div img {

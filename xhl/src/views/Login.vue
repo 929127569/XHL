@@ -105,6 +105,7 @@ export default {
           if(res.data.code==1){
               this.$store.commit('login_mutations',res.data.results);
               sessionStorage.setItem('isLogin',true);
+              sessionStorage.setItem('nickname',res.data.results[0].nickname);
               this.$router.push('/')
           }else{
             this.$toast('用户名或密码不正确')

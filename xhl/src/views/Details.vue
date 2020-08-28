@@ -78,9 +78,9 @@
       <!-- 购物车底部 -->
       <div class="mycart">
         <van-goods-action>
-          <van-goods-action-icon icon="cart-o" text="购物车" />
-          <van-goods-action-button type="danger" text="立即购买" />
-          <van-goods-action-button type="warning" text="加入购物车" />
+          <van-goods-action-icon icon="cart-o" text="购物车" @click="tocar"/>
+          <van-goods-action-button type="danger" text="立即购买"  @click="buybow"/>
+          <van-goods-action-button type="warning" text="加入购物车" @click="addcar"/>
         </van-goods-action>
       </div>
     </div>
@@ -135,10 +135,86 @@ export default {
       goods: "",
       swipeimg: [],
       show:1,
-      dimg:[]
+      dimg:[],
+      value:1,
+      count:1,
+      title:'',
+      price:'',
+      img:''
     };
   },
   methods: {
+    addcar(){
+      let goodsInfo={
+        pid:this.pid,
+        count:this.value,
+        title:this.title,
+        price:this.price,
+        img:this.img
+      }
+      if(this.$store.state.car.length==0){
+        this.$store.commit('addTocar',goodsInfo);
+        // console.log('第一次添加',this.$store.state.car)
+      }else{
+        let bool=this.$store.state.car.some(item=>{
+          return item.pid==goodsInfo.pid;
+        })
+        // console.log(bool);
+        if(bool){
+          for(let i of this.$store.state.car){
+            // console.log('wo',i);
+            if(i.pid==goodsInfo.pid){
+              i.count+=goodsInfo.count;
+              localStorage.setItem('car',JSON.stringify(this.$store.state.car))
+              // console.log('改变数量',this.$store.state.car);
+              }
+            }
+        }else{
+          this.$store.commit('addTocar',goodsInfo);
+          // console.log('添加新商品',this.$store.state.car);
+        }
+        
+
+      }
+    },
+    buybow(){
+      let goodsInfo={
+        pid:this.pid,
+        count:this.count,
+        title:this.title,
+        price:this.price,
+        img:this.img
+      };
+      if(this.$store.state.car.length==0){
+        this.$store.commit('addTocar',goodsInfo);
+        this.$router.push('/cart')
+      }else{
+        let bool=this.$store.state.car.some(item=>{
+          return item.pid==goodsInfo.pid;
+        })
+        if(bool){
+          for(let i of this.$store.state.car){
+            // console.log('wo',i);
+            if(i.pid==goodsInfo.pid){
+              i.count++;
+              localStorage.setItem('car',JSON.stringify(this.$store.state.car))
+              this.$router.push('/cart');
+              // console.log('改变数量',this.$store.state.car);
+            }
+          }
+        }else{
+          this.$store.commit('addTocar',goodsInfo);
+          this.$router.push('/cart');
+          // console.log('添加新商品',this.$store.state.car);
+        }
+
+      }
+
+
+    },
+    tocar(){
+      this.$router.push('/cart')
+    },
     showimg(){
       this.show=2
     },
@@ -154,6 +230,9 @@ export default {
         this.goods = res.data.results[0];
         this.swipeimg = res.data.results[0].img.split("|");
         this.dimg=res.data.results[0].dimg.split("|");
+        this.title=this.goods.title;
+        this.price=this.goods.price;
+        this.img=this.swipeimg[0]
       });
     },
   },

@@ -22,7 +22,7 @@ router.post('/regsiter',(req,res)=>{
 router.post('/login',(req,res)=>{
   let phone=req.body.phone;
   let upwd=req.body.upwd;
-  let sql='select phone,nickname,upwd from xhl_user where phone=? and upwd=MD5(?)';
+  let sql='select phone,nickname,upwd,uname from xhl_user where phone=? and upwd=MD5(?)';
   pool.query(sql,[phone,upwd],(err,results)=>{
       if(err)throw err;
       if(results.length==1){
