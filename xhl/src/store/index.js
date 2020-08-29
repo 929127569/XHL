@@ -18,6 +18,7 @@ export default new Vuex.Store({
     logout_mutations:(state)=>{
       state.isLogin=false;
       state.car=[];
+      state.nickname="";
       sessionStorage.clear();
       localStorage.clear();
     },

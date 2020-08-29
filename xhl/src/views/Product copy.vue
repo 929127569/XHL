@@ -1,12 +1,10 @@
 <template>
-  <div class="product">
-    <div class="procurrent">
+  <div>
     <my-heade></my-heade>
     <!-- 导航栏 -->
-    <div class="procontent">
     <div class="pronav">
       <van-tabs v-model="active">
-        <van-tab title="综合" class="aaa">
+        <van-tab title="综合">
           <!-- 商品 -->
           <div class="probox">
             <div class="probox-item" v-for="(item,index) of products" :key="index">
@@ -54,10 +52,8 @@
         <van-sidebar-item title="其他" />
       </van-sidebar>
     </div>
-    </div>
     <!-- 侧边栏结束 -->
     <my-footer></my-footer>
-    </div>
   </div>
 </template>
 
@@ -138,64 +134,14 @@ export default {
 </script>
 
 <style  >
-
-.pronav .van-tab__text{
-  font-size: 16px;
+.prosidebar::-webkit-scrollbar-thumb{
+    background-color: transparent;
+    border-radius: 6px;
 }
-.pronav .van-tabs__line{
-  bottom: 0;
-  width: 30% !important;
-}
-.pronav .van-tabs__nav{
-  position: fixed;
-  top:45px;
-  width: 100%;
-  height: 38px;
-  z-index: 999;
-  border-top: 1px solid #ddd;
-}
-.pronav .van-tabs__nav--line{
-  width: 100%;
-  padding-bottom: 0;
-}
-.pronav .van-tab__pane,.pronav .van-tab__pane-wrapper{
-  position:absolute;
-  /* z-index: 999; */
-  top: 45px;
-}
-.pronav{
-  height: 100%;
-  overflow: scroll;
-  /* bottom: 30px; */
-}
-.prosidebar{
-  /* height: 100%; */
-  overflow: scroll;
-  bottom: 50px;
-  top: 39.5px;
-}
-.procontent{
-  overflow: scroll;
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 50px;
-  height: 100%;
-}
-.procurrent{
-  overflow: hidden;
-}
-.product{
-    position: absolute;
-  box-sizing: border-box;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: #efeff4;
-  
+.prosidebar::-webkit-scrollbar{
+    width: 6px;
+    /* height: 6px; */
+    background-color: transparent;
 }
 .probox-item button{
   height: 27px;
@@ -234,10 +180,7 @@ export default {
   /* justify-content: flex-start; */
   align-items: flex-end;
   flex-flow: column nowrap;
-  position: absolute;
-  top: 40px;
-  right: 0;
-  width: 100%;
+
   /* width: 60%; */
   /* border: 1px solid yellow; */
 }
@@ -260,7 +203,7 @@ export default {
 .pronav .van-tabs__content {
   background-color: #efeff4;
   height: 100%;
-  /* min-height: 720px; */
+  min-height: 720px;
 }
 .pronav {
   width: 100%;

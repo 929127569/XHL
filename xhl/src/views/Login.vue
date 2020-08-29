@@ -103,10 +103,10 @@ export default {
       if(this.checkphone()){
         this.axios.post('/user/login','phone='+this.phone+'&upwd='+this.upwd).then(res=>{
           if(res.data.code==1){
-              this.$store.commit('login_mutations',res.data.results);
+              this.$store.commit('login_mutations',res.data.results[0]);
               sessionStorage.setItem('isLogin',true);
               sessionStorage.setItem('nickname',res.data.results[0].nickname);
-              this.$router.push('/')
+              this.$router.push('/person')
           }else{
             this.$toast('用户名或密码不正确')
           }

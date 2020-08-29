@@ -19,11 +19,11 @@
           </div>
           <span>商品分类</span>
         </router-link>
-        <a href>
+        <a href="javascript:;">
           <div style="background:#fb734c;color:white">热</div>
           <span>卡卷忧选</span>
         </a>
-        <a href>
+        <a href="javascript:;">
           <div style="background:#9be944;color:white">卷</div>
           <span>当季热卖</span>
         </a>
@@ -80,7 +80,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/盒装月饼">更多></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -107,7 +107,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/散装月饼">更多></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -134,7 +134,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/盒装月饼">中点></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -161,7 +161,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/盒装月饼">西点></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -188,7 +188,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/熟食卤味方便菜">更多></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -215,7 +215,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/腊味生腌制品">更多></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->
@@ -240,7 +240,7 @@
             </span>
           </div>
           <div>
-            <a href="javascript:;">更多></a>
+            <router-link to="/product/糖果休闲零食">更多></router-link>
           </div>
         </div>
         <!-- 分类头结束 -->

@@ -1,68 +1,76 @@
 <template>
-  <div>
-    <div class="cartnav">
-      <van-tabs v-model="active">
-        <van-tab title="商城">
-          <div class="cartbox">
-            <div>
-              <svg class="icon" aria-hidden="true">
-                <use xlink:href="#iconjiangpaipaiming" />
-              </svg>
-              <span>食品</span>
-            </div>
-            <div class="cartlist" v-for="(i,k) of this.$store.state.car" :key="k">
-              <div class="cartlistitem" >
-                <label>
-                  <input type="checkbox" 
-                  class="cartcheck" 
-                   @click="selectSingle(k)" 
-                   :checked="allGoods.indexOf(i.pid)>=0"
-                   />
-                </label>
-                <img :src="i.img" alt />
-                <a href="javascript:;">
-                  <div>
-                    <span>{{i.title}}</span>
-                    <span class="cartprice">￥{{i.price}}</span>
+  <div class="cart">
+    <div class="cart-current">
+      <div class="cartcontent">
+        <div class="cartnav">
+          <van-tabs v-model="active">
+            <van-tab title="商城">
+              <div class="cartbox">
+                <div>
+                  <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#iconjiangpaipaiming" />
+                  </svg>
+                  <span>食品</span>
+                </div>
+                <div class="cartlist" v-for="(i,k) of this.$store.state.car" :key="k">
+                  <div class="cartlistitem">
+                    <label>
+                      <input
+                        type="checkbox"
+                        class="cartcheck"
+                        @click="selectSingle(k)"
+                        :checked="allGoods.indexOf(i.pid)>=0"
+                      />
+                    </label>
+                    <img :src="i.img" alt />
+                    <a href="javascript:;">
+                      <div>
+                        <span>{{i.title}}</span>
+                        <span class="cartprice">￥{{i.price}}</span>
+                      </div>
+                      <div>
+                        <span></span>
+                        <span>x{{i.count}}</span>
+                      </div>
+                    </a>
                   </div>
-                  <div>
-                    <span></span>
-                    <span>x{{i.count}}</span>
+                  <div class="cartcount">
+                    <van-stepper v-model="i.count" @change="changecount(i.count)" />
                   </div>
-                </a>
+                </div>
               </div>
-              <div class="cartcount">
-                <van-stepper  v-model="i.count" @change="changecount(i.count)"/>
-              </div>
-            </div>
+            </van-tab>
+            <van-tab title="门店"></van-tab>
+          </van-tabs>
+        </div>
+        <div class="carthead">
+          <h3>购物车</h3>
+          <button @click="delSelect()">
+            <svg class="icon" aria-hidden="true">
+              <use xlink:href="#iconshanchu" />
+            </svg>
+          </button>
+        </div>
+        <div class="cartfoote">
+          <label>
+            <input
+              type="checkbox"
+              @click="selectAll()"
+              :checked="this.$store.state.car.length==allGoods.length&&this.$store.state.car.length"
+            />全选
+          </label>
+          <div class="cartfoote-i">
+            <span>
+              合计:
+              <b>￥{{total.toFixed(2)}}</b>
+            </span>
+            <span>不含运费</span>
           </div>
-        </van-tab>
-        <van-tab title="门店">内容 2</van-tab>
-      </van-tabs>
-    </div>
-    <div class="carthead">
-      <h3>购物车</h3>
-      <button @click="delSelect()">
-        <svg class="icon" aria-hidden="true">
-          <use xlink:href="#iconshanchu" />
-        </svg>
-      </button>
-    </div>
-    <div class="cartfoote">
-      <label >
-        <input type="checkbox" 
-        @click="selectAll()" 
-        :checked="this.$store.state.car.length==allGoods.length&&this.$store.state.car.length"
-        />全选
-      </label>
-      <div class="cartfoote-i">
-        <span>合计: <b>￥{{total}}</b> </span>
-        <span>不含运费</span>
+          <button>结算({{counttotal}})</button>
+        </div>
       </div>
-      <button>结算({{counttotal}})</button>
+      <my-footer :active="'cart'"></my-footer>
     </div>
-
-    <my-footer :active="'cart'"></my-footer>
   </div>
 </template>
 
@@ -72,93 +80,93 @@ export default {
   data() {
     return {
       active: 0,
-      allchecked:true,
-      allGoods:[]
+      allchecked: true,
+      allGoods: [],
       // value: 1,
     };
   },
-  methods:{
-    
-    delSelect(){
+  methods: {
+    delSelect() {
       // console.log(this.allGoods);
-      if(this.allGoods.length>0){
-        this.$dialog.confirm({
-          title: '您确定要删除被选择的商品吗？',
-          message: '弹窗内容',
-        }).then(()=>{
-          for(var i=0;i<this.$store.state.car.length;i++){
-            for(var k of this.allGoods){
-
-              if( this.$store.state.car[i].pid==k){
-                this.$store.state.car.splice(i,1);
-                localStorage.setItem('car',JSON.stringify(this.$store.state.car))
-                console.log(this.$store.state.car)
+      if (this.allGoods.length > 0) {
+        this.$dialog
+          .confirm({
+            title: "您确定要删除被选择的商品吗？",
+            message: "弹窗内容",
+          })
+          .then(() => {
+            for (var i = 0; i < this.$store.state.car.length; i++) {
+              for (var k of this.allGoods) {
+                if (this.$store.state.car[i].pid == k) {
+                  this.$store.state.car.splice(i, 1);
+                  localStorage.setItem(
+                    "car",
+                    JSON.stringify(this.$store.state.car)
+                  );
+                  console.log(this.$store.state.car);
+                }
               }
             }
-          }
-
-        }).catch(()=>{
-          console.log('2')
-        })
-      }else{
+          })
+          .catch(() => {
+            console.log("2");
+          });
+      } else {
         this.$dialog.alert({
-          message:"请至少选择一个商品"
-        })
+          message: "请至少选择一个商品",
+        });
       }
-      
-      
     },
-    selectAll(){
-      if(!event.currentTarget.checked){
-        this.allGoods=[];
-      }else{
-        this.allGoods=[];
-        this.$store.state.car.forEach(item=> {
+    selectAll() {
+      if (!event.currentTarget.checked) {
+        this.allGoods = [];
+      } else {
+        this.allGoods = [];
+        this.$store.state.car.forEach((item) => {
           this.allGoods.push(item.pid);
         });
       }
     },
-    selectSingle(k){
-      if(event.currentTarget.checked){
+    selectSingle(k) {
+      if (event.currentTarget.checked) {
         this.allGoods.push(this.$store.state.car[k].pid);
-      }else{
-        for(let i=0;i<this.allGoods.length;i++){
-          if(this.$store.state.car[k].pid==this.allGoods[i]){
-            this.allGoods.splice(i,1);
-            this.allchecked=false;
+      } else {
+        for (let i = 0; i < this.allGoods.length; i++) {
+          if (this.$store.state.car[k].pid == this.allGoods[i]) {
+            this.allGoods.splice(i, 1);
+            this.allchecked = false;
             break;
           }
         }
       }
     },
-    changecount(i){
-      localStorage.setItem('car',JSON.stringify(this.$store.state.car));
+    changecount(i) {
+      localStorage.setItem("car", JSON.stringify(this.$store.state.car));
       // console.log(this.$store.state.car);
       // console.log(localStorage.car)
       // console.log(JSON.parse(localStorage))
-    }
-  },
-  computed:{
-    counttotal(){
-      let counttotal=0;
-      for(let i of this.$store.state.car){
-        if(this.allGoods.indexOf(i.pid)!==-1){
-        counttotal+=i.count;
-        }
-      };
-        return counttotal;
-
     },
-    total(){
-      let total=0;
-      for (let i of this.$store.state.car){
-        if(this.allGoods.indexOf(i.pid)!==-1){
-          total+=i.count*i.price;
+  },
+  computed: {
+    counttotal() {
+      let counttotal = 0;
+      for (let i of this.$store.state.car) {
+        if (this.allGoods.indexOf(i.pid) !== -1) {
+          counttotal += i.count;
         }
-      };
+      }
+      return counttotal;
+    },
+    total() {
+      let total = 0;
+      for (let i of this.$store.state.car) {
+        if (this.allGoods.indexOf(i.pid) !== -1) {
+          total += i.count * i.price;
+        }
+      }
       return total;
-    }
-  }
+    },
+  },
   // components:{
   //   myFooter
   // }
@@ -167,37 +175,62 @@ export default {
 
 
 <style >
-/* .cartlistitem label{
-  width: 20px;
-  height: 20px;
-  border-radius: 50% !important;
-} */
-.cartfoote-i span:last-child{
+
+.cartnav .van-tabs__content{
+  min-height: 400px;
+  /* height: 100%; */
+  overflow: scroll;
+
+}
+
+.cartcontent{
+  overflow: scroll;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 80px;
+}
+.cart-current {
+  overflow: hidden;
+}
+.cart {
+  position: absolute;
+  box-sizing: border-box;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color:#efeff4 ;
+}
+
+.cartfoote-i span:last-child {
   font-size: 12px;
 }
-.cartfoote-i b{
+.cartfoote-i b {
   color: #e4393c;
 }
-.cartfoote-i{
+.cartfoote-i {
   display: flex;
   flex-flow: column nowrap;
   margin-left: 35%;
   font-size: 15px;
 }
-.cartfoote label{
+.cartfoote label {
   margin-left: 10px;
   /* font-size: 17px; */
 }
-.cartfoote button{
+.cartfoote button {
   height: 100%;
   border: none;
   outline: none;
-  background: #9C9A9A;
+  background: #e4393c;
   padding: 0px 8px;
   color: #fff;
   font-size: 17px;
 }
-.cartfoote{
+.cartfoote {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -209,7 +242,7 @@ export default {
   color: #6d6d72;
   text-align: left;
 }
-.cartprice{
+.cartprice {
   font-size: 17px;
   color: #e4393c;
 }
@@ -247,10 +280,10 @@ export default {
   padding: 10px 0 10px 20px;
   border-bottom: 1px solid #eee;
 }
-.cartbox > div:first-child span{
+.cartbox > div:first-child span {
   margin-left: 5px;
 }
-.cartlist{ 
+.cartlist {
   margin-bottom: 15px;
 }
 .cartlistitem {
@@ -290,10 +323,9 @@ export default {
   padding-bottom: 0.8rem;
 }
 .cartnav .van-tabs__content {
-  /* border: 1px solid red; */
   margin-top: 2.9rem;
-  height: 100%;
-  min-height: 700px;
+  /* height: 100%; */
+  /* min-height: 700px; */
   background-color: #efeff4;
 }
 .carthead {
